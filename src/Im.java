@@ -19,6 +19,14 @@ public class Im extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        BufferedImage fish;
+        try {
+            fish = loadImg("src/fish/fish.png");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        g.drawImage(fish,150,250,this);
     }
     public static BufferedImage loadImg(String path) throws IOException {
         return ImageIO.read(new File(path));
