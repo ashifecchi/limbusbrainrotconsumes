@@ -1,5 +1,7 @@
+import java.io.IOException;
+
 public class Runner {
-    public static void main(String[] args) {
-        thing.run();
+    public static void main(String[] args) throws IOException {
+        Win.run();
     }
 }
