@@ -19,21 +19,35 @@ public class Im extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        BufferedImage fish;
+
+        //buttons
+        JButton gacha = new JButton("gacja");
+        gacha.setSize(125,30);
+        gacha.setVisible(false);
+        gacha.setEnabled(true);
+        gacha.setLocation(800,470);
+        gacha.addActionListener(this);
+
+        //bg
+        BufferedImage bg;
         try {
-            fish = loadImg("src/fish/fish.png");
+            bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        g.drawImage(fish,150,250,this);
+        //draw
+        g.drawImage( bg,0,0,this);
+        this.add(gacha);
     }
     public static BufferedImage loadImg(String path) throws IOException {
         return ImageIO.read(new File(path));
     }
         @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JButton){
 
+        }
     }
 }
 

@@ -18,7 +18,6 @@ public class Win extends JFrame implements ActionListener {
         window.add(pa);
         window.setVisible(true);
         window.add(pa);
-
     }
 
     @Override
