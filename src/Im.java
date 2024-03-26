@@ -22,19 +22,22 @@ import static java.lang.Thread.sleep;
 
 public class Im extends JPanel implements ActionListener {
     private ArrayList<Chars> pool;
+    private JButton decagacha;
+    private pull puller;
+    private Graphics g;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         //buttons
-        JButton gacha = new JButton();
-        gacha.setSize(125,30);
-        gacha.setEnabled(true);
-        gacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
-        gacha.setContentAreaFilled(false);
-        gacha.setBorderPainted(false);
-        gacha.setLocation(800,470);
-        gacha.addActionListener(this);
+        decagacha = new JButton();
+        decagacha.setSize(125,30);
+        decagacha.setEnabled(true);
+        decagacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
+        decagacha.setContentAreaFilled(false);
+        decagacha.setBorderPainted(false);
+        decagacha.setLocation(800,470);
+        decagacha.addActionListener(this);
 
         //bg
         BufferedImage bg;
@@ -46,11 +49,16 @@ public class Im extends JPanel implements ActionListener {
 
         //POOl !!!
         ArrayList<Chars> pool = new ArrayList<>();
-        pull puller = new pull(pool);
+        try {
+            initializeCharPool();
+            puller = new pull(pool);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         //draw
         g.drawImage( bg,0,0,this);
-        this.add(gacha);
+        this.add(decagacha);
     }
     private void initializeCharPool() throws IOException {
         pool = new ArrayList<>();
@@ -61,13 +69,21 @@ public class Im extends JPanel implements ActionListener {
             pool.add(c);
         }
     }
+    private void printPull(Chars[] chars){
+        for (Chars guy : chars){
+            g.drawImage(guy.getSprite(),300,300,null);
+        }
+    }
     public static BufferedImage loadImg(String path) throws IOException {
         return ImageIO.read(new File(path));
     }
         @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton){
-
+            if (e.getSource() == decagacha){
+                System.out.print("yippee");
+                printPull(puller.deca());
+            }
         }
     }
 }
