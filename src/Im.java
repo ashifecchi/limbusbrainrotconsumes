@@ -25,13 +25,17 @@ public class Im extends JPanel implements ActionListener {
     private JButton decagacha;
     private pull puller;
     private Graphics g;
+    private Chars[] chars;
+    private boolean drawchars = false;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.g = g;
 
         //buttons
         decagacha = new JButton();
         decagacha.setSize(125,30);
+        decagacha.setVisible(true);
         decagacha.setEnabled(true);
         decagacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
         decagacha.setContentAreaFilled(false);
@@ -58,21 +62,31 @@ public class Im extends JPanel implements ActionListener {
 
         //draw
         g.drawImage( bg,0,0,this);
+        if  (drawchars) {
+            System.out.println(chars.length);
+            for (Chars guy : chars) {
+                g.drawImage(guy.getSprite(), 300, 300, null);
+            }
+        }
         this.add(decagacha);
     }
-    private void initializeCharPool() throws IOException {
+    private void initializeCharPool(){
         pool = new ArrayList<>();
-        Scanner filescanner = new Scanner(new File("src/CharacterNames"));
-        Scanner file2scanner = new Scanner(new File("src/CharacterImgs"));
-        while (filescanner.hasNext()){
-            Chars c = new Chars(filescanner.nextLine(),loadImg(file2scanner.nextLine()));
-            pool.add(c);
+        Scanner filescanner;
+        try {
+            filescanner = new Scanner(new File("src/CharacterNames"));
+            Scanner file2scanner = new Scanner(new File("src/CharacterImgs"));
+            while (filescanner.hasNext()){
+                Chars c = new Chars(filescanner.nextLine(),loadImg(file2scanner.nextLine()));
+                pool.add(c);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
     private void printPull(Chars[] chars){
-        for (Chars guy : chars){
-            g.drawImage(guy.getSprite(),300,300,null);
-        }
+        this.chars = chars;
+        drawchars = true;
     }
     public static BufferedImage loadImg(String path) throws IOException {
         return ImageIO.read(new File(path));
@@ -80,10 +94,7 @@ public class Im extends JPanel implements ActionListener {
         @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JButton){
-            if (e.getSource() == decagacha){
-                System.out.print("yippee");
                 printPull(puller.deca());
-            }
         }
     }
 }

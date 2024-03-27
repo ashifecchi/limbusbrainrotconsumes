@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class pull {
     private ArrayList<Chars> pool;
-    private BufferedImage garbolin = Im.loadImg("src/backgorudnsnstuff/gobln.png");
+    private BufferedImage garbolin = Im.loadImg("src/CharacterImgsSrc/gobln.png");
     public pull(ArrayList<Chars> characterpool) throws IOException {
         pool = characterpool;
     }
@@ -19,7 +19,7 @@ public class pull {
         }
     }
     public Chars[] deca(){ //gets 10 random chars
-        Chars[] tenpull = new Chars[9];
+        Chars[] tenpull = new Chars[10];
         for (int i = 0; i < 10; i++){
             tenpull[i] = single();
         }
