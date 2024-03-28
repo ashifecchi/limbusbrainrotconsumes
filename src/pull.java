@@ -10,12 +10,12 @@ public class pull {
         pool = characterpool;
     }
     public Chars single(){ //gets 1 random char
-        int num = (int) (Math.random()*10+1);
+        double num = (Math.random()*10+1);
         if (num < 10.4){
             return new Chars("goblin", garbolin);
         } else {
-            num = (int) (Math.random() * (pool.size() + 1));
-            return pool.get(num);
+            num = (int) (Math.random() * (pool.size()));
+            return pool.get((int)num);
         }
     }
     public Chars[] deca(){ //gets 10 random chars

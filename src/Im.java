@@ -72,13 +72,11 @@ public class Im extends JPanel implements ActionListener {
         //draw
         g.drawImage( bg,0,0,this);
         if  (drawchars) {
-            decagacha.setVisible(false);
             g.drawImage(splash, 240,100,null);
             g.drawImage(chars[(int)currentChar].getSprite(),240,110,null);
             if (currentChar > 9){
                 currentChar = 0;
                 drawchars = false;
-                decagacha.setEnabled(true);
             }
         }
         this.add(decagacha);
@@ -107,7 +105,7 @@ public class Im extends JPanel implements ActionListener {
         @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof Timer) {
-            currentChar += 0.2;
+            currentChar += 0.1;
             repaint();
         }
         if (e.getSource() instanceof JButton){
