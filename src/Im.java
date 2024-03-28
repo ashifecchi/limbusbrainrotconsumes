@@ -27,6 +27,13 @@ public class Im extends JPanel implements ActionListener {
     private Graphics g;
     private Chars[] chars;
     private boolean drawchars = false;
+    private double currentChar = 0;
+    private Timer time;
+    public Im(){
+        super();
+        time = new Timer(100, this);
+        time.start();
+    }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -45,8 +52,10 @@ public class Im extends JPanel implements ActionListener {
 
         //bg
         BufferedImage bg;
+        BufferedImage splash;
         try {
             bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
+            splash = loadImg("src/CharacterImgsSrc/BOOM.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,9 +72,13 @@ public class Im extends JPanel implements ActionListener {
         //draw
         g.drawImage( bg,0,0,this);
         if  (drawchars) {
-            System.out.println(chars.length);
-            for (Chars guy : chars) {
-                g.drawImage(guy.getSprite(), 300, 300, null);
+            decagacha.setVisible(false);
+            g.drawImage(splash, 240,100,null);
+            g.drawImage(chars[(int)currentChar].getSprite(),240,110,null);
+            if (currentChar > 9){
+                currentChar = 0;
+                drawchars = false;
+                decagacha.setEnabled(true);
             }
         }
         this.add(decagacha);
@@ -93,7 +106,12 @@ public class Im extends JPanel implements ActionListener {
     }
         @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof Timer) {
+            currentChar += 0.2;
+            repaint();
+        }
         if (e.getSource() instanceof JButton){
+            System.out.print("click ");
                 printPull(puller.deca());
         }
     }
