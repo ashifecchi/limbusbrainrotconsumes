@@ -62,13 +62,7 @@ public class Im extends JPanel implements ActionListener {
         }
 
         //POOl !!!
-        ArrayList<Chars> pool = new ArrayList<>();
-        try {
-            initializeCharPool();
-            puller = new pull(pool);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        initializeCharPool();
 
         //draw
         g.drawImage( bg,0,0,this);
@@ -97,6 +91,7 @@ public class Im extends JPanel implements ActionListener {
                 Chars c = new Chars(filescanner.nextLine(),loadImg(file2scanner.nextLine()));
                 pool.add(c);
             }
+            puller = new pull(pool);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
