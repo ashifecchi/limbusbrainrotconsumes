@@ -36,6 +36,7 @@ public class Im extends JPanel implements ActionListener {
     }
     @Override
     public void paintComponent(Graphics g) {
+        initializeCharPool();
         super.paintComponent(g);
         this.g = g;
 
@@ -71,10 +72,15 @@ public class Im extends JPanel implements ActionListener {
 
         //draw
         g.drawImage( bg,0,0,this);
+        g.setColor(Color.WHITE);
         if  (drawchars) {
             g.drawImage(splash, 240,100,null);
             g.drawImage(chars[(int)currentChar].getSprite(),240,110,null);
-            if (currentChar > 9){
+            g.setFont(new Font("Impact",Font.PLAIN, 100));
+            g.drawString("YOU GOT A "+chars[(int)currentChar].getName().toUpperCase(),100,100);
+            g.setFont(new Font("Lobster",Font.PLAIN,30));
+            g.drawString("pull number "+(int)(currentChar+1),10,500);
+            if (currentChar >= 9.5){
                 currentChar = 0;
                 drawchars = false;
             }
@@ -102,16 +108,17 @@ public class Im extends JPanel implements ActionListener {
     public static BufferedImage loadImg(String path) throws IOException {
         return ImageIO.read(new File(path));
     }
-        @Override
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof Timer) {
-            currentChar += 0.1;
+            if (drawchars) {
+                currentChar += 0.1;
+            }
             repaint();
         }
         if (e.getSource() instanceof JButton){
             System.out.print("click ");
-                printPull(puller.deca());
+            printPull(puller.deca());
         }
     }
 }
-

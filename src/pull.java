@@ -9,14 +9,12 @@ public class pull {
     public pull(ArrayList<Chars> characterpool) throws IOException {
         pool = characterpool;
     }
-    public Chars single(){ //gets 1 random char
-        double num = (Math.random()*10+1);
-        if (num < 10.4){
-            return new Chars("goblin", garbolin);
-        } else {
-            num = (int) (Math.random() * (pool.size()));
-            return pool.get((int)num);
+    public Chars single() { //gets 1 random char
+        double num = ((Math.random() * 10) + 1);
+        if (num > 0) {
+           return pool.get((int) (Math.random() * (pool.size())));
         }
+            return new Chars("goblin", garbolin);
     }
     public Chars[] deca(){ //gets 10 random chars
         Chars[] tenpull = new Chars[10];
