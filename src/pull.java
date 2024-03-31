@@ -11,13 +11,13 @@ public class pull {
     }
     public Chars single() { //gets 1 random char
         double num = (Math.random() * 10)+1;
-        System.out.println(num);
-        if (num < 9) {
+     //   System.out.println(num);
+        if (num < 10) {
             return new Chars("goblin", garbolin);
         }
-        for (Chars cha : pool){
-            System.out.println(cha.getName());
-        }
+       // for (Chars cha : pool){
+       //     System.out.println(cha.getName());
+      //  }
         return pool.get((int) (Math.random() * (pool.size())));
     }
     public Chars[] deca(){ //gets 10 random chars

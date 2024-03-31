@@ -23,6 +23,7 @@ import static java.lang.Thread.sleep;
 public class Im extends JPanel implements ActionListener {
     private ArrayList<Chars> pool;
     private JButton decagacha;
+    private JButton singlegacha;
     private pull puller;
     private Graphics g;
     private Chars[] chars;
@@ -41,6 +42,15 @@ public class Im extends JPanel implements ActionListener {
         this.g = g;
 
         //buttons
+        singlegacha = new JButton();
+        singlegacha.setSize(125,30);
+        singlegacha.setEnabled(true);
+        singlegacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
+        singlegacha.setContentAreaFilled(false);
+        singlegacha.setBorderPainted(false);
+        singlegacha.setLocation(600,470);
+        singlegacha.addActionListener(this);
+
         decagacha = new JButton();
         decagacha.setSize(125,30);
         decagacha.setVisible(true);
@@ -54,9 +64,11 @@ public class Im extends JPanel implements ActionListener {
         //bg
         BufferedImage bg;
         BufferedImage splash;
+        BufferedImage splash2;
         try {
             bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
             splash = loadImg("src/CharacterImgsSrc/BOOM.png");
+            splash2 = loadImg("src/CharacterImgsSrc/BANG.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -69,11 +81,18 @@ public class Im extends JPanel implements ActionListener {
         g.setColor(Color.WHITE);
         if  (drawchars) {
             g.drawImage(splash, 240,100,null);
-            g.drawImage(chars[(int)currentChar].getSprite(),240,110,null);
+            if (chars[(int)currentChar].getName().equals("goblin")){
+                g.drawImage(chars[(int)currentChar].getSprite(),270,110,null);
+            } else {
+                g.drawImage(chars[(int) currentChar].getSprite(), 300, 130, null);
+            }
             g.setFont(new Font("Impact",Font.PLAIN, 100));
             g.drawString("YOU GOT A "+chars[(int)currentChar].getName().toUpperCase(),100,100);
             g.setFont(new Font("Lobster",Font.PLAIN,30));
             g.drawString("pull number "+(int)(currentChar+1),10,500);
+            if ((int)currentChar + .2 > currentChar){
+                g.drawImage(splash2,300,110,null);
+            }
             if (currentChar >= 9.5){
                 currentChar = 0;
                 drawchars = false;
