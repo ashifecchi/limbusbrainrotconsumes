@@ -11,10 +11,12 @@ public class pull {
     }
     public Chars single() { //gets 1 random char
         double num = (Math.random() * 10)+1;
+        // this was to check if the numbers worked.. in the correct range..
      //   System.out.println(num);
-        if (num < 10) {
+        if (num < 0) {
             return new Chars("goblin", garbolin);
         }
+        // this was to check that the pool actually worked
        // for (Chars cha : pool){
        //     System.out.println(cha.getName());
       //  }
@@ -26,13 +28,5 @@ public class pull {
             tenpull[i] = single();
         }
         return tenpull;
-    }
-    public void drawPull(Graphics g,Chars[] pull){
-        for (Chars cha : pull){
-            g.drawImage(cha.getSprite(),400,300,null);
-        }
-    }
-    public void drawPull(Graphics g,Chars pull){
-        g.drawImage(pull.getSprite(),400,300,null);
     }
 }

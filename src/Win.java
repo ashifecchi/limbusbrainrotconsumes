@@ -17,6 +17,7 @@ public class Win extends JFrame implements ActionListener {
         window.setSize(1000,750);
         window.add(pa);
         window.setVisible(true);
+        window.setResizable(false);
         window.add(pa);
     }
 

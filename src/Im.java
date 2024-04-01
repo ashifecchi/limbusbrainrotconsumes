@@ -24,12 +24,16 @@ public class Im extends JPanel implements ActionListener {
     private ArrayList<Chars> pool;
     private JButton decagacha;
     private JButton singlegacha;
+    private JButton inventorybutton;
     private pull puller;
     private Graphics g;
     private Chars[] chars;
     private boolean drawchars = false;
     private double currentChar = 0;
+    private double finish;
     private Timer time;
+    private Inventory inv;
+    private boolean Inv = false;
     public Im(){
         super();
         time = new Timer(100, this);
@@ -42,13 +46,26 @@ public class Im extends JPanel implements ActionListener {
         this.g = g;
 
         //buttons
+        inventorybutton = new JButton();
+        inventorybutton.setSize(60,50);
+        inventorybutton.setEnabled(true);
+        inventorybutton.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
+        inventorybutton.setContentAreaFilled(false);
+        inventorybutton.setBorderPainted(false);
+        inventorybutton.setVisible(true);
+        inventorybutton.setName("inventory");
+        inventorybutton.setLocation(895,540);
+        inventorybutton.addActionListener(this);
+
         singlegacha = new JButton();
-        singlegacha.setSize(125,30);
+        singlegacha.setSize(115,30);
         singlegacha.setEnabled(true);
         singlegacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
         singlegacha.setContentAreaFilled(false);
         singlegacha.setBorderPainted(false);
-        singlegacha.setLocation(600,470);
+        singlegacha.setVisible(true);
+        singlegacha.setName("singlepull");
+        singlegacha.setLocation(665,470);
         singlegacha.addActionListener(this);
 
         decagacha = new JButton();
@@ -57,6 +74,7 @@ public class Im extends JPanel implements ActionListener {
         decagacha.setEnabled(true);
         decagacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
         decagacha.setContentAreaFilled(false);
+        decagacha.setName("10pull");
         decagacha.setBorderPainted(false);
         decagacha.setLocation(800,470);
         decagacha.addActionListener(this);
@@ -66,6 +84,9 @@ public class Im extends JPanel implements ActionListener {
         BufferedImage splash;
         BufferedImage splash2;
         try {
+            if (Inv){
+         //       bg = loadImg(); i add later
+            }
             bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
             splash = loadImg("src/CharacterImgsSrc/BOOM.png");
             splash2 = loadImg("src/CharacterImgsSrc/BANG.png");
@@ -75,29 +96,34 @@ public class Im extends JPanel implements ActionListener {
 
         //POOl !!!
         initializeCharPool();
+        inv = new Inventory(pool);
 
         //draw
         g.drawImage( bg,0,0,this);
         g.setColor(Color.WHITE);
         if  (drawchars) {
             g.drawImage(splash, 240,100,null);
-            if (chars[(int)currentChar].getName().equals("goblin")){
-                g.drawImage(chars[(int)currentChar].getSprite(),270,110,null);
-            } else {
-                g.drawImage(chars[(int) currentChar].getSprite(), 300, 130, null);
+            Chars Currentchar = chars[(int)currentChar];
+            inv.addChar(Currentchar.getName());
+            if (Currentchar.getName().equals("goblin")){
+                g.drawImage(Currentchar.getSprite(),270,110,null);
+            } else{
+                    g.drawImage(chars[(int) currentChar].getSprite(), 200, 100, null);
             }
             g.setFont(new Font("Impact",Font.PLAIN, 100));
             g.drawString("YOU GOT A "+chars[(int)currentChar].getName().toUpperCase(),100,100);
             g.setFont(new Font("Lobster",Font.PLAIN,30));
-            g.drawString("pull number "+(int)(currentChar+1),10,500);
+           // g.drawString("pull number "+(int)(currentChar+1),10,500);
             if ((int)currentChar + .2 > currentChar){
-                g.drawImage(splash2,300,110,null);
+                g.drawImage(splash2,0,-100,null);
             }
-            if (currentChar >= 9.5){
+            if (currentChar >= finish){
                 currentChar = 0;
                 drawchars = false;
             }
         }
+        this.add(inventorybutton);
+        this.add(singlegacha);
         this.add(decagacha);
     }
     private void initializeCharPool(){
@@ -115,8 +141,15 @@ public class Im extends JPanel implements ActionListener {
             throw new RuntimeException(e);
         }
     }
-    private void printPull(Chars[] chars){
+    private void printPull(Chars[] chars){ //for 10 pulls
         this.chars = chars;
+        finish = 9.5;
+        drawchars = true;
+    }
+    private void printPull(Chars chars){ //for single pulls
+        this.chars = new Chars[1];
+        this.chars[0] = chars;
+        finish = 0.9;
         drawchars = true;
     }
     public static BufferedImage loadImg(String path) throws IOException {
@@ -132,7 +165,15 @@ public class Im extends JPanel implements ActionListener {
         }
         if (e.getSource() instanceof JButton){
             System.out.print("click ");
-            printPull(puller.deca());
+            if (((JButton) e.getSource()).getName().equals("10pull")) {
+                printPull(puller.deca());
+            }
+            if (((JButton) e.getSource()).getName().equals("singlepull")){
+                printPull(puller.single());
+            }
+            if (((JButton) e.getSource()).getName().equals("inventory")){
+                Inv = true;
+            }
         }
     }
 }
