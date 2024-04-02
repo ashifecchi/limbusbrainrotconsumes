@@ -260,6 +260,13 @@ public class Im extends JPanel implements ActionListener {
                     System.out.println("NUH UH");
                 }
             }
+            if (((JButton) e.getSource()).getName().equals("left")){
+                if (currentCharInv-1 >= 0) {
+                    currentCharInv--;
+                } else{
+                    System.out.println("NUH UH");
+                }
+            }
         }
     }
 }
