@@ -25,11 +25,14 @@ public class Im extends JPanel implements ActionListener {
     private JButton decagacha;
     private JButton singlegacha;
     private JButton inventorybutton;
+    private JButton invRight;
+    private JButton invLeft;
     private pull puller;
     private Graphics g;
     private Chars[] chars;
     private boolean drawchars = false;
     private double currentChar = 0;
+    private int currentCharInv = 0;
     private double finish;
     private JButton extractionbutton;
     private Timer time;
@@ -57,6 +60,26 @@ public class Im extends JPanel implements ActionListener {
         inventorybutton.setName("inventory");
         inventorybutton.setLocation(895,540);
         inventorybutton.addActionListener(this);
+
+        invRight = new JButton();
+        invRight.setName("right");
+        invRight.setIcon(new ImageIcon("src/NonCharacterResources/arrowright.png"));
+        invRight.setBorderPainted(false);
+        invRight.setContentAreaFilled(false);
+        invRight.setSize(invRight.getIcon().getIconWidth(),invRight.getIcon().getIconHeight());
+        invRight.setLocation(600,300);
+        invRight.setEnabled(true);
+        invRight.addActionListener(this);
+
+        invLeft = new JButton();
+        invLeft.setName("left");
+        invLeft.setIcon(new ImageIcon("src/NonCharacterResources/arrowleft.png"));
+        invLeft.setBorderPainted(false);
+        invLeft.setContentAreaFilled(false);
+        invLeft.setSize(invLeft.getIcon().getIconWidth(),invLeft.getIcon().getIconHeight());
+        invLeft.setLocation(250,300);
+        invLeft.setEnabled(true);
+        invLeft.addActionListener(this);
 
         extractionbutton = new JButton();
         extractionbutton.setSize(60,50);
@@ -107,24 +130,46 @@ public class Im extends JPanel implements ActionListener {
             } else {
                 bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
             }
-            splash = loadImg("src/CharacterImgsSrc/BOOM.png");
-            splash2 = loadImg("src/CharacterImgsSrc/BANG.png");
+            splash = loadImg("src/NonCharacterResources/BOOM.png");
+            splash2 = loadImg("src/NonCharacterResources/BANG.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         //POOl !!!
         initializeCharPool();
-        inv = new Inventory(pool);
+        try {
+            inv = new Inventory(pool);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        //draw
         g.drawImage( bg,0,0,this);
+
+        //draw inv
+        if (Inv){
+            Chars current = inv.getInv().get(currentCharInv);
+            g.setFont(new Font("Comic Sans MS",Font.PLAIN, 50));
+            g.setColor(Color.RED);
+            decagacha.setVisible(false);
+            singlegacha.setVisible(false);
+            g.drawImage(current.getSprite().getScaledInstance(800,600,0),60,0,null);
+            g.drawString(current.getName(),400,100);
+            g.setFont(new Font("Comic Sans MS",Font.PLAIN, 20));
+            g.drawString(String.valueOf(current.getCopies()),775,260);
+        }
+
+        //draw pulls
         g.setColor(Color.WHITE);
         if  (drawchars) {
             decagacha.setVisible(false);
             singlegacha.setVisible(false);
             inventorybutton.setVisible(false);
             extractionbutton.setVisible(false);
+            invRight.setVisible(true);
+            invLeft.setVisible(true);
+            invRight.setEnabled(true);
+            invLeft.setEnabled(true);
             g.drawImage(splash, 240,100,null);
             Chars Currentchar = chars[(int)currentChar];
             inv.addChar(Currentchar.getName());
@@ -149,6 +194,8 @@ public class Im extends JPanel implements ActionListener {
                 extractionbutton.setVisible(true);
             }
         }
+        this.add(invRight);
+        this.add(invLeft);
         this.add(extractionbutton);
         this.add(inventorybutton);
         this.add(singlegacha);
@@ -192,7 +239,8 @@ public class Im extends JPanel implements ActionListener {
             repaint();
         }
         if (e.getSource() instanceof JButton){
-            System.out.print("click ");
+            //System.out.print("click ");
+            // was used to check if the listener worked
             if (((JButton) e.getSource()).getName().equals("10pull")) {
                 printPull(puller.deca());
             }
@@ -204,6 +252,13 @@ public class Im extends JPanel implements ActionListener {
             }
             if (((JButton) e.getSource()).getName().equals("extract")){
                 Inv = false;
+            }
+            if (((JButton) e.getSource()).getName().equals("right")){
+                if (currentCharInv+1 < inv.getInv().size()) {
+                    currentCharInv++;
+                } else{
+                    System.out.println("NUH UH");
+                }
             }
         }
     }
