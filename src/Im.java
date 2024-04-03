@@ -164,6 +164,8 @@ public class Im extends JPanel implements ActionListener {
         } else {
             invRight.setVisible(false);
             invLeft.setVisible(false);
+            invRight.setEnabled(false);
+            invLeft.setEnabled(false);
         }
 
         //draw pulls
@@ -255,6 +257,8 @@ public class Im extends JPanel implements ActionListener {
             }
             if (((JButton) e.getSource()).getName().equals("extract")){
                 Inv = false;
+                invRight.setVisible(false);
+                invLeft.setVisible(false);
             }
             if (((JButton) e.getSource()).getName().equals("right")){
                 if (currentCharInv+1 < inv.getInv().size()) {
