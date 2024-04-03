@@ -148,10 +148,6 @@ public class Im extends JPanel implements ActionListener {
 
         //draw inv
         if (Inv){
-            invRight.setVisible(true);
-            invLeft.setVisible(true);
-            invRight.setEnabled(true);
-            invLeft.setEnabled(true);
             Chars current = inv.getInv().get(currentCharInv);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 50));
             g.setColor(Color.RED);
@@ -162,10 +158,6 @@ public class Im extends JPanel implements ActionListener {
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 20));
             g.drawString(String.valueOf(current.getCopies()),775,260);
         } else {
-            invRight.setVisible(false);
-            invLeft.setVisible(false);
-            invRight.setEnabled(false);
-            invLeft.setEnabled(false);
         }
 
         //draw pulls
@@ -257,8 +249,6 @@ public class Im extends JPanel implements ActionListener {
             }
             if (((JButton) e.getSource()).getName().equals("extract")){
                 Inv = false;
-                invRight.setVisible(false);
-                invLeft.setVisible(false);
             }
             if (((JButton) e.getSource()).getName().equals("right")){
                 if (currentCharInv+1 < inv.getInv().size()) {
