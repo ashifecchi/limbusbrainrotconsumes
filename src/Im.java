@@ -148,6 +148,10 @@ public class Im extends JPanel implements ActionListener {
 
         //draw inv
         if (Inv){
+            invRight.setVisible(true);
+            invLeft.setVisible(true);
+            invRight.setEnabled(true);
+            invLeft.setEnabled(true);
             Chars current = inv.getInv().get(currentCharInv);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 50));
             g.setColor(Color.RED);
@@ -157,6 +161,9 @@ public class Im extends JPanel implements ActionListener {
             g.drawString(current.getName(),400,100);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 20));
             g.drawString(String.valueOf(current.getCopies()),775,260);
+        } else {
+            invRight.setVisible(false);
+            invLeft.setVisible(false);
         }
 
         //draw pulls
@@ -166,10 +173,6 @@ public class Im extends JPanel implements ActionListener {
             singlegacha.setVisible(false);
             inventorybutton.setVisible(false);
             extractionbutton.setVisible(false);
-            invRight.setVisible(true);
-            invLeft.setVisible(true);
-            invRight.setEnabled(true);
-            invLeft.setEnabled(true);
             g.drawImage(splash, 240,100,null);
             Chars Currentchar = chars[(int)currentChar];
             inv.addChar(Currentchar.getName());
