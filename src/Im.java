@@ -22,11 +22,16 @@ import static java.lang.Thread.sleep;
 
 public class Im extends JPanel implements ActionListener {
     private ArrayList<Chars> pool;
-    private JButton decagacha;
-    private JButton singlegacha;
-    private JButton inventorybutton;
-    private JButton invRight;
-    private JButton invLeft;
+    private JButton decagacha = new JButton();
+    private JButton singlegacha = new JButton();;
+    private JButton inventorybutton = new JButton();;
+    private JButton invRight = new JButton();;
+    private JButton invLeft = new JButton();
+    private BufferedImage bg;
+    private BufferedImage splash = loadImg("src/NonCharacterResources/BOOM.png");
+    private BufferedImage splash2 = loadImg("src/NonCharacterResources/BANG.png");
+    private BufferedImage arrowLeft = loadImg("src/NonCharacterResources/arrowleft.png");
+    private BufferedImage arrowright = loadImg("src/NonCharacterResources/arrowright.png");
     private pull puller;
     private Graphics g;
     private Chars[] chars;
@@ -34,14 +39,15 @@ public class Im extends JPanel implements ActionListener {
     private double currentChar = 0;
     private int currentCharInv = 0;
     private double finish;
-    private JButton extractionbutton;
+    private JButton extractionbutton = new JButton();;
     private Timer time;
     private Inventory inv;
     private boolean Inv = false;
-    public Im(){
+    public Im() throws IOException {
         super();
         time = new Timer(100, this);
         time.start();
+        initializeCharPool();
     }
     @Override
     public void paintComponent(Graphics g) {
@@ -50,7 +56,7 @@ public class Im extends JPanel implements ActionListener {
         this.g = g;
 
         //buttons
-        inventorybutton = new JButton();
+
         inventorybutton.setSize(60,50);
         inventorybutton.setEnabled(true);
         inventorybutton.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
@@ -61,27 +67,23 @@ public class Im extends JPanel implements ActionListener {
         inventorybutton.setLocation(895,540);
         inventorybutton.addActionListener(this);
 
-        invRight = new JButton();
         invRight.setName("right");
-        invRight.setIcon(new ImageIcon("src/NonCharacterResources/arrowright.png"));
         invRight.setBorderPainted(false);
         invRight.setContentAreaFilled(false);
-        invRight.setSize(invRight.getIcon().getIconWidth(),invRight.getIcon().getIconHeight());
+        invRight.setSize(36,53);
         invRight.setLocation(600,300);
         invRight.setEnabled(true);
         invRight.addActionListener(this);
 
-        invLeft = new JButton();
         invLeft.setName("left");
         invLeft.setIcon(new ImageIcon("src/NonCharacterResources/arrowleft.png"));
         invLeft.setBorderPainted(false);
         invLeft.setContentAreaFilled(false);
-        invLeft.setSize(invLeft.getIcon().getIconWidth(),invLeft.getIcon().getIconHeight());
+        invLeft.setSize(36,53);
         invLeft.setLocation(250,300);
         invLeft.setEnabled(true);
         invLeft.addActionListener(this);
 
-        extractionbutton = new JButton();
         extractionbutton.setSize(60,50);
         extractionbutton.setEnabled(true);
         extractionbutton.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
@@ -93,7 +95,6 @@ public class Im extends JPanel implements ActionListener {
         extractionbutton.addActionListener(this);
 
 
-        singlegacha = new JButton();
         singlegacha.setSize(115,30);
         singlegacha.setEnabled(true);
         singlegacha.setOpaque(false); //https://stackoverflow.com/questions/5654208/making-a-jbutton-invisible-but-clickable thank you random guy
@@ -104,7 +105,6 @@ public class Im extends JPanel implements ActionListener {
         singlegacha.setLocation(665,470);
         singlegacha.addActionListener(this);
 
-        decagacha = new JButton();
         decagacha.setSize(125,30);
         decagacha.setVisible(true);
         decagacha.setEnabled(true);
@@ -118,26 +118,23 @@ public class Im extends JPanel implements ActionListener {
         if (Inv){
             decagacha.setEnabled(false);
             singlegacha.setEnabled(false);
+        } else{
+            decagacha.setEnabled(true);
+            singlegacha.setEnabled(true);
         }
 
         //bg
-        BufferedImage bg;
-        BufferedImage splash;
-        BufferedImage splash2;
         try {
             if (Inv){
                 bg = loadImg("src/backgorudnsnstuff/the limbus company.png");
             } else {
                 bg = loadImg("src/backgorudnsnstuff/the ;iombus company.png");
             }
-            splash = loadImg("src/NonCharacterResources/BOOM.png");
-            splash2 = loadImg("src/NonCharacterResources/BANG.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         //POOl !!!
-        initializeCharPool();
         try {
             inv = new Inventory(pool);
         } catch (IOException e) {
@@ -148,6 +145,10 @@ public class Im extends JPanel implements ActionListener {
 
         //draw inv
         if (Inv){
+            g.drawImage(arrowLeft,250,300,null);
+            g.drawImage(arrowright,600,300,null);
+            invRight.setEnabled(true);
+            invLeft.setEnabled(true);
             Chars current = inv.getInv().get(currentCharInv);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 50));
             g.setColor(Color.RED);
@@ -156,8 +157,10 @@ public class Im extends JPanel implements ActionListener {
             g.drawImage(current.getSprite().getScaledInstance(800,600,0),60,0,null);
             g.drawString(current.getName(),400,100);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 20));
-            g.drawString(String.valueOf(current.getCopies()),775,260);
+            g.drawString(""+inv.getInv().get(currentCharInv).getCopies(),775,260);
         } else {
+            invRight.setEnabled(false);
+            invLeft.setEnabled(false);
         }
 
         //draw pulls
@@ -169,11 +172,13 @@ public class Im extends JPanel implements ActionListener {
             extractionbutton.setVisible(false);
             g.drawImage(splash, 240,100,null);
             Chars Currentchar = chars[(int)currentChar];
-            inv.addChar(Currentchar.getName());
+            for (Chars cha : chars){
+                inv.addChar(cha.getName());
+            }
             if (Currentchar.getName().equals("goblin")){
                 g.drawImage(Currentchar.getSprite(),270,110,null);
             } else{
-                    g.drawImage(chars[(int) currentChar].getSprite(), 0, 0, null);
+                g.drawImage(chars[(int) currentChar].getSprite(), 0, 0, null);
             }
             g.setFont(new Font("Impact",Font.PLAIN, 100));
             g.drawString("YOU GOT A "+chars[(int)currentChar].getName().toUpperCase(),100,100);
@@ -251,14 +256,14 @@ public class Im extends JPanel implements ActionListener {
                 Inv = false;
             }
             if (((JButton) e.getSource()).getName().equals("right")){
-                if (currentCharInv+1 < inv.getInv().size()) {
+                if (currentCharInv < inv.getInv().size()-1) {
                     currentCharInv++;
                 } else{
                     System.out.println("NUH UH");
                 }
             }
             if (((JButton) e.getSource()).getName().equals("left")){
-                if (currentCharInv-1 >= 0) {
+                if (currentCharInv > 0) {
                     currentCharInv--;
                 } else{
                     System.out.println("NUH UH");

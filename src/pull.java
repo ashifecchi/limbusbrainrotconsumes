@@ -11,15 +11,9 @@ public class pull {
     }
     public Chars single() { //gets 1 random char
         double num = (Math.random() * 10)+1;
-        // this was to check if the numbers worked.. in the correct range..
-     //   System.out.println(num);
         if (num < 10.5) { //the chance of NOT winning. it goes from 1 to 11 pretty sure
             return new Chars("goblin", garbolin);
         }
-        // this was to check that the pool actually worked
-       // for (Chars cha : pool){
-       //     System.out.println(cha.getName());
-      //  }
         return pool.get((int) (Math.random() * (pool.size())));
     }
     public Chars[] deca(){ //gets 10 random chars
