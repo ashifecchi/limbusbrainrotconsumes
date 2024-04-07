@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class Win extends JFrame implements ActionListener {
+public class Win extends JFrame {
     private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     Button butt;
     private static JFrame window;
@@ -19,10 +19,5 @@ public class Win extends JFrame implements ActionListener {
         window.setVisible(true);
         window.setResizable(false);
         window.add(pa);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

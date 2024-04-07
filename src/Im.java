@@ -47,6 +47,12 @@ public class Im extends JPanel implements ActionListener {
         super();
         time = new Timer(100, this);
         time.start();
+        invLeft.addActionListener(this);
+        invRight.addActionListener(this);
+        singlegacha.addActionListener(this);
+        extractionbutton.addActionListener(this);
+        inventorybutton.addActionListener(this);
+        decagacha.addActionListener(this);
         initializeCharPool();
     }
     @Override
@@ -65,7 +71,6 @@ public class Im extends JPanel implements ActionListener {
         inventorybutton.setVisible(true);
         inventorybutton.setName("inventory");
         inventorybutton.setLocation(895,540);
-        inventorybutton.addActionListener(this);
 
         invRight.setName("right");
         invRight.setBorderPainted(false);
@@ -73,16 +78,13 @@ public class Im extends JPanel implements ActionListener {
         invRight.setSize(36,53);
         invRight.setLocation(600,300);
         invRight.setEnabled(true);
-        invRight.addActionListener(this);
 
         invLeft.setName("left");
-        invLeft.setIcon(new ImageIcon("src/NonCharacterResources/arrowleft.png"));
         invLeft.setBorderPainted(false);
         invLeft.setContentAreaFilled(false);
         invLeft.setSize(36,53);
         invLeft.setLocation(250,300);
         invLeft.setEnabled(true);
-        invLeft.addActionListener(this);
 
         extractionbutton.setSize(60,50);
         extractionbutton.setEnabled(true);
@@ -92,7 +94,6 @@ public class Im extends JPanel implements ActionListener {
         extractionbutton.setVisible(true);
         extractionbutton.setName("extract");
         extractionbutton.setLocation(815,540);
-        extractionbutton.addActionListener(this);
 
 
         singlegacha.setSize(115,30);
@@ -103,7 +104,6 @@ public class Im extends JPanel implements ActionListener {
         singlegacha.setVisible(true);
         singlegacha.setName("singlepull");
         singlegacha.setLocation(665,470);
-        singlegacha.addActionListener(this);
 
         decagacha.setSize(125,30);
         decagacha.setVisible(true);
@@ -113,7 +113,6 @@ public class Im extends JPanel implements ActionListener {
         decagacha.setName("10pull");
         decagacha.setBorderPainted(false);
         decagacha.setLocation(800,470);
-        decagacha.addActionListener(this);
 
         if (Inv){
             decagacha.setEnabled(false);
@@ -157,7 +156,7 @@ public class Im extends JPanel implements ActionListener {
             g.drawImage(current.getSprite().getScaledInstance(800,600,0),60,0,null);
             g.drawString(current.getName(),400,100);
             g.setFont(new Font("Comic Sans MS",Font.PLAIN, 20));
-            g.drawString(""+inv.getInv().get(currentCharInv).getCopies(),775,260);
+            g.drawString(""+inv.getGuyCopies(current.getName()),775,260);
         } else {
             invRight.setEnabled(false);
             invLeft.setEnabled(false);
@@ -174,6 +173,7 @@ public class Im extends JPanel implements ActionListener {
             Chars Currentchar = chars[(int)currentChar];
             for (Chars cha : chars){
                 inv.addChar(cha.getName());
+                System.out.println(inv.getGuyCopies(cha.getName()));
             }
             if (Currentchar.getName().equals("goblin")){
                 g.drawImage(Currentchar.getSprite(),270,110,null);
@@ -255,18 +255,20 @@ public class Im extends JPanel implements ActionListener {
             if (((JButton) e.getSource()).getName().equals("extract")){
                 Inv = false;
             }
-            if (((JButton) e.getSource()).getName().equals("right")){
-                if (currentCharInv < inv.getInv().size()-1) {
-                    currentCharInv++;
-                } else{
-                    System.out.println("NUH UH");
+            if (Inv) {
+                if (((JButton) e.getSource()).getName().equals("right")) {
+                    if (currentCharInv < inv.getInv().size() - 1) {
+                        currentCharInv++;
+                    } else {
+                        System.out.println("NUH UH");
+                    }
                 }
-            }
-            if (((JButton) e.getSource()).getName().equals("left")){
-                if (currentCharInv > 0) {
-                    currentCharInv--;
-                } else{
-                    System.out.println("NUH UH");
+                if (((JButton) e.getSource()).getName().equals("left")) {
+                    if (currentCharInv > 0) {
+                        currentCharInv--;
+                    } else {
+                        System.out.println("NUH UH");
+                    }
                 }
             }
         }
