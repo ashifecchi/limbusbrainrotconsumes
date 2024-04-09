@@ -166,9 +166,11 @@ public class Im extends JPanel implements ActionListener {
             extractionbutton.setVisible(false);
             g.drawImage(splash, 240,100,null);
             Chars Currentchar = chars[(int)currentChar];
-            for (Chars cha : chars){
-                inv.addChar(cha.getName());
-            }
+      //      if (currentChar == currentChar) {
+        //        for (Chars cha : chars) {
+          //          inv.addChar(cha.getName());
+            //    }
+            //}
             if (Currentchar.getName().equals("goblin")){
                 g.drawImage(Currentchar.getSprite(),270,110,null);
             } else{
@@ -213,6 +215,9 @@ public class Im extends JPanel implements ActionListener {
         }
     }
     private void printPull(Chars[] chars){ //for 10 pulls
+        for (Chars guy : chars){
+            inv.addChar(guy.getName());
+        }
         this.chars = chars;
         finish = 9.5;
         drawchars = true;
@@ -220,6 +225,7 @@ public class Im extends JPanel implements ActionListener {
     private void printPull(Chars chars){ //for single pulls
         this.chars = new Chars[1];
         this.chars[0] = chars;
+        inv.addChar(chars.getName());
         finish = 0.9;
         drawchars = true;
     }
