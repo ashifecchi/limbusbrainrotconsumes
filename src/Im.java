@@ -54,6 +54,7 @@ public class Im extends JPanel implements ActionListener {
         inventorybutton.addActionListener(this);
         decagacha.addActionListener(this);
         initializeCharPool();
+        inv = new Inventory(pool);
     }
     @Override
     public void paintComponent(Graphics g) {
@@ -133,12 +134,6 @@ public class Im extends JPanel implements ActionListener {
             throw new RuntimeException(e);
         }
 
-        //POOl !!!
-        try {
-            inv = new Inventory(pool);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         g.drawImage( bg,0,0,this);
 
@@ -173,7 +168,6 @@ public class Im extends JPanel implements ActionListener {
             Chars Currentchar = chars[(int)currentChar];
             for (Chars cha : chars){
                 inv.addChar(cha.getName());
-                System.out.println(inv.getGuyCopies(cha.getName()));
             }
             if (Currentchar.getName().equals("goblin")){
                 g.drawImage(Currentchar.getSprite(),270,110,null);
@@ -241,8 +235,6 @@ public class Im extends JPanel implements ActionListener {
             repaint();
         }
         if (e.getSource() instanceof JButton){
-            //System.out.print("click ");
-            // was used to check if the listener worked
             if (((JButton) e.getSource()).getName().equals("10pull")) {
                 printPull(puller.deca());
             }
